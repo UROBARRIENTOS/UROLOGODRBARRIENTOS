@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=8" />
+    <link rel="stylesheet" href="styles.css?v=12" />
   </head>
   <body>
     <div class="page-shell">
@@ -43,10 +43,14 @@
         <section class="hero" id="inicio">
           <div class="hero-copy">
             <p class="eyebrow">Especialista en urología clínica y quirúrgica</p>
-            <h1>Atención urológica de calidad, precisa y enfocada en mejorar tu calidad de vida</h1>
+            <h1>
+              <span>Atención urológica de calidad,</span>
+              <span>precisa y enfocada en mejorar</span>
+              <span>tu calidad de vida</span>
+            </h1>
             <p class="hero-text">
-              Evaluación integral para salud prostática, litiasis urinaria, disfunción sexual,
-              infertilidad masculina y cirugía urológica de mínima invasión.
+              Tu urólogo de confianza en Ciudad Acuña y Piedras Negras, con atención a problemas
+              urológicos con la mejor calidad a tu alcance
             </p>
             <div class="hero-actions">
               <a class="button button-primary" href="#contacto">Solicitar cita</a>
@@ -109,7 +113,7 @@
         <section class="profile section" id="perfil">
           <div class="section-heading">
             <p class="eyebrow">Perfil médico</p>
-            <h2>Una práctica centrada en ciencia, trato humano y decisiones bien explicadas.</h2>
+            <h2>Una práctica centrada en ciencia, actualización constante y atención a la calidad humana en cada consulta.</h2>
           </div>
           <div class="profile-grid">
             <article class="profile-card">
@@ -177,7 +181,7 @@
               </article>
               <article class="service-card">
                 <h3>Litiasis urinaria</h3>
-                <p>Diagnóstico y tratamiento de cálculos renales, ureterales y vesicales.</p>
+                <p>Diagnóstico y tratamiento de piedras (calculos) en riñones, ureterales y en vejiga.</p>
               </article>
               <article class="service-card">
                 <h3>Salud sexual masculina</h3>
@@ -186,6 +190,13 @@
               <article class="service-card">
                 <h3>Infertilidad masculina</h3>
                 <p>Estudio etiológico y plan terapéutico para mejorar pronóstico reproductivo.</p>
+              </article>
+              <article class="service-card">
+                <h3>Tumores y cánceres en vias urinarias</h3>
+                <p>
+                  Diagnóstico y tratamiento de los tumores y cánceres de toda la via urinaria,
+                  riñónes, vejiga, próstata, pene y región genital
+                </p>
               </article>
             </div>
           </div>
@@ -206,7 +217,10 @@
               </article>
               <article class="service-card accent">
                 <h3>Cirugía ambulatoria</h3>
-                <p>Resolución de procedimientos seleccionados con logística clara y seguimiento continuo.</p>
+                <p>
+                  Resolución de manera ambulatoria de problemas comúnes, circuncisión, vasectomía,
+                  eliminación de verrugas , etc.. Con la mejor tecnología láser
+                </p>
               </article>
             </div>
           </div>
@@ -217,39 +231,106 @@
             <p class="eyebrow">Testimonios</p>
             <h2>La experiencia del paciente también forma parte del tratamiento.</h2>
           </div>
-          <div class="testimonial-grid">
-            <article class="testimonial-card">
-              <p>
-                “Me explicaron cada estudio y cada opción de tratamiento con mucha claridad. El
-                proceso fue serio, ordenado y sin improvisaciones.”
-              </p>
-              <strong>Paciente, 48 años</strong>
-            </article>
-            <article class="testimonial-card">
-              <p>
-                “Buscaba una consulta profesional y discreta. Encontré seguimiento real y una
-                atención muy humana.”
-              </p>
-              <strong>Paciente, 35 años</strong>
-            </article>
-            <article class="testimonial-card">
-              <p>
-                “El enfoque fue práctico y preciso. Salí de la cita entendiendo qué tenía y cuál
-                era el siguiente paso.”
-              </p>
-              <strong>Paciente, 56 años</strong>
-            </article>
+          <div class="testimonial-carousel">
+            <div class="testimonial-viewport">
+              <div class="testimonial-track">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Excelente Dr, al ser mi primer visita con un Urólogo, llegué con mucha
+                    incertidumbre por mi caso, una vez que fui atendido me dio mucha confianza
+                    tanto su explicación como su diagnóstico, te hace sentir confiado a la hora de
+                    expresar tu caso”
+                  </p>
+                  <strong>Jonathan Oblea</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Excelente médico, me explicó todo acerca de mi diagnóstico y tratamiento,
+                    amable y atento. Estuvo atento acerca del seguimiento.”
+                  </p>
+                  <strong>RHC</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Excelente profesionista, explica las cosas de una manera muy clara y precisa,
+                    orienta a los pacientes.”
+                  </p>
+                  <strong>Luis Guillermo Gómez Zúñiga</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “El trato personal fue muy bueno y las explicaciones muy detalladas. En general
+                    fue una muy buena desición el escoger éste Doctor.”
+                  </p>
+                  <strong>Jaime Lucio</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Probablemente encuentren otros doctores con 5 estrellas por aquí y no dudo
+                    que sean bueno médicos, pero este doctor tiene lo que no todos tienen y es una
+                    gran empatía y dedicación. Durante toda la cita me sentí muy cómodo, explicó
+                    muy detalladamente el problema y el tratamiento, respondió cada pregunta y
+                    sobre todo fue súper empatico tratando de hacerme sentir en múltiples ocasiones
+                    que todo iba a ester bien.”
+                  </p>
+                  <strong>DT</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>“Súper excelente te todo, instalaciones y consulta súper completa”</p>
+                  <strong>C.R.</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Mis respetos al Dr Jesús Barrientos se comporta a la altura de un especialista
+                    y tiene una atención donde uno como paciente llega a sentirse tranquilo al
+                    momento de expresar sus síntomas. Altamente recomendable”
+                  </p>
+                  <strong>Josafat Ortega</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Excelente atención , la explicación de los resultados muy detallada,
+                    recomendado 100%”
+                  </p>
+                  <strong>Fernando Valenzuela</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+                <article class="testimonial-card">
+                  <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+                  <p>
+                    “Ha sido el mejor doctor que he encontrado, trató muy bien a mi abuelo y lo
+                    dejó totalmente sano. Muy humano y se nota su gran conocimiento sobre la
+                    urología, ya que explica todo de manera que lo puedas entender aún sin tener un
+                    background médico”
+                  </p>
+                  <strong>ARBR</strong>
+                  <span>Opinión de paciente en Doctoralia</span>
+                </article>
+              </div>
+            </div>
+            <div class="testimonial-dots" aria-label="Cambiar testimonio"></div>
           </div>
         </section>
 
-        <section class="statement section">
+        <section class="statement section" data-parallax>
           <blockquote>
-            “La mejor consulta médica no solo resuelve un problema: también reduce incertidumbre.”
+            “La mejor medicina es la que se realiza con el paciente en el centro, analizando la enfermedad como una parte de un todo, aplicando la mejor evidencia y ciencia disponibles”
           </blockquote>
-          <p>
-            Este bloque funciona como declaración de marca y más adelante puede sustituirse por tu
-            frase profesional, cédulas, avales o membresías.
-          </p>
         </section>
 
         <section class="faq-contact section" id="contacto">
@@ -298,6 +379,6 @@
       </main>
     </div>
 
-    <script src="script.js?v=8"></script>
+    <script src="script.js?v=12"></script>
   </body>
 </html>

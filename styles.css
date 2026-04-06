@@ -197,7 +197,7 @@ img {
 }
 
 .hero {
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.22fr 0.78fr;
   align-items: center;
   padding: 72px 0 48px;
 }
@@ -208,12 +208,16 @@ img {
 .doctor-details h2 {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
-  line-height: 0.98;
+  line-height: 1.06;
 }
 
 .hero-copy h1 {
-  font-size: clamp(3.2rem, 7vw, 6rem);
-  max-width: 11ch;
+  font-size: clamp(2.8rem, 5.9vw, 5rem);
+  max-width: 15.5ch;
+}
+
+.hero-copy h1 span {
+  display: block;
 }
 
 .hero-text,
@@ -316,8 +320,8 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;
-  transform: scale(1.03);
+  object-position: center 2%;
+  transform: scale(1.12);
 }
 
 .doctor-details {
@@ -367,6 +371,20 @@ img {
 .section-heading h2 {
   max-width: 14ch;
   font-size: clamp(2.5rem, 5vw, 4.2rem);
+}
+
+.testimonial-band .section-heading h2 {
+  max-width: none;
+}
+
+.profile.section .section-heading h2 {
+  max-width: none;
+  text-align: left;
+}
+
+.services.section .section-heading h2 {
+  max-width: none;
+  text-align: left;
 }
 
 .split {
@@ -498,13 +516,31 @@ img {
 
 .service-grid,
 .testimonial-grid {
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .service-card,
 .testimonial-card {
   padding: 28px;
   border-radius: var(--radius-lg);
+}
+
+.service-card {
+  padding: 20px 22px;
+}
+
+.service-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.service-card p {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.55;
 }
 
 .service-card.accent {
@@ -516,15 +552,122 @@ img {
   position: relative;
 }
 
-.testimonial-grid {
+.testimonial-carousel {
   display: grid;
+  gap: 12px;
+}
+
+.testimonial-viewport {
+  overflow: hidden;
+}
+
+.testimonial-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 1100ms cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.testimonial-card {
+  flex: 0 0 calc((100% - 32px) / 3);
+  min-height: 226px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px;
+}
+
+.testimonial-stars {
+  color: #d7a938;
+  letter-spacing: 0.14em;
+  font-size: 0.88rem;
+  margin-bottom: 10px;
 }
 
 .testimonial-card p,
 .statement blockquote {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.8rem;
-  line-height: 1.2;
+  font-size: 1.42rem;
+  line-height: 1.14;
+}
+
+.testimonial-card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.98rem;
+}
+
+.testimonial-card span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.testimonial-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(23, 59, 143, 0.18);
+  cursor: pointer;
+  transition:
+    width 260ms ease,
+    background 260ms ease;
+}
+
+.testimonial-dot.active {
+  width: 18px;
+  background: linear-gradient(135deg, var(--primary), #08101f);
+}
+
+.statement {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  isolation: isolate;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 28px;
+}
+
+.statement::before {
+  content: "";
+  position: absolute;
+  inset: -18% -8%;
+  background:
+    linear-gradient(180deg, rgba(10, 16, 31, 0.42), rgba(10, 16, 31, 0.22)),
+    url("assets/quirurgica-fondo.jpg") center center / cover no-repeat;
+  transform: translate3d(0, var(--parallax-offset, 0px), 0) scale(1.14);
+  transform-origin: center center;
+  z-index: -2;
+  will-change: transform;
+}
+
+.statement::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.76), rgba(247, 250, 255, 0.88)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.22), transparent 30%);
+  z-index: -1;
+}
+
+.statement blockquote,
+.statement p {
+  position: relative;
+  z-index: 1;
+  transform: translate3d(0, var(--parallax-content-offset, 0px), 0);
+  will-change: transform;
 }
 
 .statement {
@@ -534,6 +677,10 @@ img {
 .statement blockquote {
   margin: 0;
   color: var(--text);
+  max-width: 24ch;
+  margin-inline: auto;
+  font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+  line-height: 1.12;
 }
 
 .statement p {
@@ -600,9 +747,12 @@ img {
   .profile-grid,
   .faq-contact,
   .service-grid,
-  .testimonial-grid,
   .trust-strip {
     grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    flex-basis: calc((100% - 16px) / 2);
   }
 
   .topbar {
@@ -634,7 +784,25 @@ img {
     width: min(calc(100% - 20px), var(--content));
   }
 
-  .topbar,
+  .topbar {
+    position: static;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 24px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.8rem;
+  }
+
+  .topbar > .button {
+    width: 100%;
+    justify-content: center;
+  }
+
   .profile-card,
   .credentials-card,
   .service-card,
@@ -642,19 +810,69 @@ img {
   .faq-panel,
   .contact-card,
   .statement {
-    padding: 22px;
+    padding: 18px;
   }
 
   .hero-copy h1 {
-    font-size: 3.2rem;
+    font-size: 2.5rem;
+    line-height: 1.04;
+  }
+
+  .hero-text {
+    margin-top: 18px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .hero {
+    gap: 18px;
+    padding: 26px 0 32px;
   }
 
   .doctor-card {
-    min-height: 480px;
+    min-height: 420px;
+    padding: 16px;
+  }
+
+  .doctor-portrait {
+    inset: 16px 16px 132px;
+    border-radius: 22px;
+  }
+
+  .doctor-details {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    padding: 18px;
+  }
+
+  .doctor-details h2 {
+    font-size: 1.55rem;
+    line-height: 1.02;
+  }
+
+  .testimonial-card {
+    flex-basis: 100%;
+    min-height: auto;
+    padding: 18px;
+  }
+
+  .testimonial-card p {
+    font-size: 1.24rem;
+    line-height: 1.14;
   }
 
   .brand-logo {
-    width: 108px;
+    width: 88px;
   }
 
   .contact-logo {
@@ -663,5 +881,70 @@ img {
 
   .hero-metrics {
     grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+
+  .trust-strip {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .section {
+    padding-top: 72px;
+  }
+
+  .section-heading {
+    margin-bottom: 22px;
+  }
+
+  .section-heading h2,
+  .profile.section .section-heading h2,
+  .services.section .section-heading h2,
+  .testimonial-band .section-heading h2 {
+    font-size: 2.1rem;
+    line-height: 1.02;
+  }
+
+  .profile-card {
+    min-height: 380px;
+  }
+
+  .profile-rotator {
+    min-height: 250px;
+  }
+
+  .profile-slide p {
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .tab-controls {
+    width: 100%;
+  }
+
+  .tab-button {
+    flex: 1 1 0;
+    min-height: 42px;
+    padding: 0 14px;
+  }
+
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .statement {
+    min-height: 220px;
+    padding: 18px;
+  }
+
+  .statement blockquote {
+    max-width: 18ch;
+    font-size: 1.45rem;
+    line-height: 1.1;
+  }
+
+  .faq-contact {
+    gap: 18px;
+    padding-bottom: 36px;
   }
 }

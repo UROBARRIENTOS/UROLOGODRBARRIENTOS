@@ -3,6 +3,10 @@ const tabPanels = document.querySelectorAll(".tab-panel");
 const countUpItems = document.querySelectorAll(".count-up");
 const profileSlides = document.querySelectorAll(".profile-slide");
 const profileDots = document.querySelectorAll(".profile-dot");
+const testimonialTrack = document.querySelector(".testimonial-track");
+const testimonialCards = document.querySelectorAll(".testimonial-track .testimonial-card");
+const testimonialDotsContainer = document.querySelector(".testimonial-dots");
+const parallaxSections = document.querySelectorAll("[data-parallax]");
 const revealTargets = document.querySelectorAll(
   [
     ".hero-copy",
@@ -23,6 +27,9 @@ const revealTargets = document.querySelectorAll(
 
 let activeProfileSlide = 0;
 let profileIntervalId = null;
+let activeTestimonialPage = 0;
+let testimonialIntervalId = null;
+let parallaxTicking = false;
 
 const setActiveProfileSlide = (index) => {
   activeProfileSlide = index;
@@ -45,6 +52,101 @@ const startProfileRotation = () => {
     const nextIndex = (activeProfileSlide + 1) % profileSlides.length;
     setActiveProfileSlide(nextIndex);
   }, 10000);
+};
+
+const getVisibleTestimonials = () => {
+  if (window.innerWidth <= 640) {
+    return 1;
+  }
+
+  if (window.innerWidth <= 980) {
+    return 2;
+  }
+
+  return 3;
+};
+
+const getTestimonialPages = () => {
+  const visible = getVisibleTestimonials();
+  return Math.max(1, Math.ceil(testimonialCards.length / visible));
+};
+
+const renderTestimonialDots = () => {
+  if (!testimonialDotsContainer) {
+    return;
+  }
+
+  testimonialDotsContainer.innerHTML = "";
+
+  Array.from({ length: getTestimonialPages() }).forEach((_, index) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "testimonial-dot";
+    dot.setAttribute("aria-label", `Ver grupo de testimonios ${index + 1}`);
+    dot.addEventListener("click", () => {
+      setActiveTestimonialPage(index);
+      startTestimonialRotation();
+    });
+    testimonialDotsContainer.appendChild(dot);
+  });
+};
+
+const setActiveTestimonialPage = (pageIndex) => {
+  if (!testimonialTrack || testimonialCards.length === 0) {
+    return;
+  }
+
+  const visible = getVisibleTestimonials();
+  const maxPage = getTestimonialPages() - 1;
+  activeTestimonialPage = Math.min(pageIndex, maxPage);
+
+  const cardWidth = testimonialCards[0].getBoundingClientRect().width;
+  const gap = 16;
+  const offset = (cardWidth + gap) * visible * activeTestimonialPage;
+
+  testimonialTrack.style.transform = `translate3d(-${offset}px, 0, 0)`;
+
+  testimonialDotsContainer?.querySelectorAll(".testimonial-dot").forEach((dot, index) => {
+    dot.classList.toggle("active", index === activeTestimonialPage);
+  });
+};
+
+const startTestimonialRotation = () => {
+  if (!testimonialTrack || getTestimonialPages() <= 1) {
+    return;
+  }
+
+  if (testimonialIntervalId) {
+    window.clearInterval(testimonialIntervalId);
+  }
+
+  testimonialIntervalId = window.setInterval(() => {
+    const nextPage = (activeTestimonialPage + 1) % getTestimonialPages();
+    setActiveTestimonialPage(nextPage);
+  }, 6200);
+};
+
+const updateParallax = () => {
+  parallaxSections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || 1;
+    const progress = (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
+    const offset = Math.max(-64, Math.min(64, progress * -64));
+    const contentOffset = Math.max(-18, Math.min(18, progress * 18));
+    section.style.setProperty("--parallax-offset", `${offset}px`);
+    section.style.setProperty("--parallax-content-offset", `${contentOffset}px`);
+  });
+
+  parallaxTicking = false;
+};
+
+const requestParallaxUpdate = () => {
+  if (parallaxTicking) {
+    return;
+  }
+
+  parallaxTicking = true;
+  window.requestAnimationFrame(updateParallax);
 };
 
 const animateCount = (element) => {
@@ -147,4 +249,22 @@ if (profileSlides.length > 1) {
   });
 
   startProfileRotation();
+}
+
+if (testimonialTrack && testimonialCards.length > 0) {
+  renderTestimonialDots();
+  setActiveTestimonialPage(0);
+  startTestimonialRotation();
+
+  window.addEventListener("resize", () => {
+    renderTestimonialDots();
+    setActiveTestimonialPage(activeTestimonialPage);
+    startTestimonialRotation();
+  });
+}
+
+if (parallaxSections.length > 0) {
+  updateParallax();
+  window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
+  window.addEventListener("resize", requestParallaxUpdate);
 }
