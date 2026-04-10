@@ -1,12 +1,18 @@
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabPanels = document.querySelectorAll(".tab-panel");
+const menuToggle = document.querySelector(".menu-toggle");
+const mainNav = document.querySelector("#main-nav");
 const countUpItems = document.querySelectorAll(".count-up");
 const profileSlides = document.querySelectorAll(".profile-slide");
 const profileDots = document.querySelectorAll(".profile-dot");
+const profileRotator = document.querySelector(".profile-rotator");
+const testimonialViewport = document.querySelector(".testimonial-viewport");
 const testimonialTrack = document.querySelector(".testimonial-track");
 const testimonialCards = document.querySelectorAll(".testimonial-track .testimonial-card");
 const testimonialDotsContainer = document.querySelector(".testimonial-dots");
 const parallaxSections = document.querySelectorAll("[data-parallax]");
+const heroParallaxSections = document.querySelectorAll("[data-hero-parallax]");
+const samePageAnchorLinks = document.querySelectorAll('a[href^="#"]');
 const revealTargets = document.querySelectorAll(
   [
     ".hero-copy",
@@ -30,6 +36,14 @@ let profileIntervalId = null;
 let activeTestimonialPage = 0;
 let testimonialIntervalId = null;
 let parallaxTicking = false;
+let profileTouchStartX = 0;
+let profileTouchStartY = 0;
+let profileTouchCurrentX = 0;
+let profileTouchCurrentY = 0;
+let testimonialTouchStartX = 0;
+let testimonialTouchStartY = 0;
+let testimonialTouchCurrentX = 0;
+let testimonialTouchCurrentY = 0;
 
 const setActiveProfileSlide = (index) => {
   activeProfileSlide = index;
@@ -137,6 +151,14 @@ const updateParallax = () => {
     section.style.setProperty("--parallax-content-offset", `${contentOffset}px`);
   });
 
+  heroParallaxSections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || 1;
+    const progress = (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
+    const photoOffset = Math.max(-90, Math.min(90, progress * -90));
+    section.style.setProperty("--hero-photo-offset", `${photoOffset}px`);
+  });
+
   parallaxTicking = false;
 };
 
@@ -176,6 +198,33 @@ const animateCount = (element) => {
   requestAnimationFrame(step);
 };
 
+const getAnchorOffset = () => {
+  if (window.innerWidth <= 640) {
+    return 18;
+  }
+
+  return 110;
+};
+
+const scrollToHashTarget = (hash) => {
+  if (!hash || hash === "#") {
+    return;
+  }
+
+  const target = document.querySelector(hash);
+
+  if (!target) {
+    return;
+  }
+
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - getAnchorOffset();
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: "smooth",
+  });
+};
+
 tabButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const targetId = button.dataset.tab;
@@ -185,6 +234,45 @@ tabButtons.forEach((button) => {
 
     button.classList.add("active");
     document.getElementById(targetId)?.classList.add("active");
+  });
+});
+
+menuToggle?.addEventListener("click", () => {
+  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+  menuToggle.setAttribute("aria-expanded", String(!isOpen));
+  menuToggle.classList.toggle("is-open", !isOpen);
+  mainNav?.classList.toggle("is-open", !isOpen);
+});
+
+samePageAnchorLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const href = link.getAttribute("href");
+
+    if (!href || href === "#" || href.startsWith("#") === false) {
+      return;
+    }
+
+    const target = document.querySelector(href);
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    scrollToHashTarget(href);
+    history.replaceState(null, "", href);
+  });
+});
+
+mainNav?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (!menuToggle || window.innerWidth > 640) {
+      return;
+    }
+
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.classList.remove("is-open");
+    mainNav.classList.remove("is-open");
   });
 });
 
@@ -251,6 +339,49 @@ if (profileSlides.length > 1) {
   startProfileRotation();
 }
 
+profileRotator?.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.touches[0];
+    profileTouchStartX = touch.clientX;
+    profileTouchStartY = touch.clientY;
+    profileTouchCurrentX = touch.clientX;
+    profileTouchCurrentY = touch.clientY;
+  },
+  { passive: true },
+);
+
+profileRotator?.addEventListener(
+  "touchmove",
+  (event) => {
+    const touch = event.touches[0];
+    profileTouchCurrentX = touch.clientX;
+    profileTouchCurrentY = touch.clientY;
+  },
+  { passive: true },
+);
+
+profileRotator?.addEventListener(
+  "touchend",
+  () => {
+    const deltaX = profileTouchCurrentX - profileTouchStartX;
+    const deltaY = profileTouchCurrentY - profileTouchStartY;
+
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) {
+      return;
+    }
+
+    if (deltaX < 0) {
+      setActiveProfileSlide((activeProfileSlide + 1) % profileSlides.length);
+    } else {
+      setActiveProfileSlide((activeProfileSlide - 1 + profileSlides.length) % profileSlides.length);
+    }
+
+    startProfileRotation();
+  },
+  { passive: true },
+);
+
 if (testimonialTrack && testimonialCards.length > 0) {
   renderTestimonialDots();
   setActiveTestimonialPage(0);
@@ -263,7 +394,52 @@ if (testimonialTrack && testimonialCards.length > 0) {
   });
 }
 
-if (parallaxSections.length > 0) {
+testimonialViewport?.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.touches[0];
+    testimonialTouchStartX = touch.clientX;
+    testimonialTouchStartY = touch.clientY;
+    testimonialTouchCurrentX = touch.clientX;
+    testimonialTouchCurrentY = touch.clientY;
+  },
+  { passive: true },
+);
+
+testimonialViewport?.addEventListener(
+  "touchmove",
+  (event) => {
+    const touch = event.touches[0];
+    testimonialTouchCurrentX = touch.clientX;
+    testimonialTouchCurrentY = touch.clientY;
+  },
+  { passive: true },
+);
+
+testimonialViewport?.addEventListener(
+  "touchend",
+  () => {
+    const deltaX = testimonialTouchCurrentX - testimonialTouchStartX;
+    const deltaY = testimonialTouchCurrentY - testimonialTouchStartY;
+
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) {
+      return;
+    }
+
+    if (deltaX < 0) {
+      setActiveTestimonialPage((activeTestimonialPage + 1) % getTestimonialPages());
+    } else {
+      setActiveTestimonialPage(
+        (activeTestimonialPage - 1 + getTestimonialPages()) % getTestimonialPages(),
+      );
+    }
+
+    startTestimonialRotation();
+  },
+  { passive: true },
+);
+
+if (parallaxSections.length > 0 || heroParallaxSections.length > 0) {
   updateParallax();
   window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
   window.addEventListener("resize", requestParallaxUpdate);
